@@ -1,0 +1,4 @@
+node_modules/
+src/config/*.yml
+src/config/*.yaml
+npm-debug.log

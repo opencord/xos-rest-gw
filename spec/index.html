@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <script src="http://10.1.8.44:3000/socket.io/socket.io.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-1.12.4.min.js"
+      integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+      crossorigin="anonymous"></script>
+    <script src="https://rawgit.com/notifyjs/notifyjs/master/dist/notify.js"></script>
+
+    <style>
+      body {
+        max-width: 100%;
+      }
+    </style>
+<script>
+  /* global io $ alert*/
+  function enableSocket(auth) {
+
+    auth.user = JSON.parse(auth.user);
+
+    var socket = io.connect('http://10.1.8.44:3000', {
+      query: 'name=' + auth.user.username + '&token=' + auth.xoscsrftoken + '&sessionId=' + auth.xossessionid + '&id=' + auth.user.id
+    });
+    socket.on('event', function(data) {
+      var p = $('body').append('<p></p>');
+      p.append('<b>' + data.model + '</b><br/>');
+      p.append('<i>' + JSON.stringify(data.msg.changed_fields) + '</i>');
+      p.append('<pre>' + JSON.stringify(data.msg.object) + '</pre>');
+      console.log(data.object);
+      $.notify(data.model + ': ' + JSON.stringify(data.msg.object.name) + 'updated', 'success');
+    });
+  }
+
+  function login() {
+    var username = $('#username').val();
+    var password = $('#password').val();
+
+    $.get('http://10.1.8.44:3000/api/utility/login?username='+username+'&password='+password,
+      function(res) {
+        enableSocket(res);
+        $('#login').hide();
+      }
+    )
+    .fail(function(e) {
+      alert( 'error' );
+      console.log(e);
+    });
+  }
+</script>
+  </head>
+  <body>
+    <form onsubmit="login()" id="login">
+      <input type="text" id="username">
+      <input type="password" id="password">
+      <input type="button" value="Login" onclick="login()">
+    </form>
+  </body>
+</html>
