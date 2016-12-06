@@ -4,7 +4,7 @@
   const winston = require('winston');
   const fs = require('fs');
   const path = require('path');
-  const level = process.env.LOG_LEVEL || 'warn';
+  const level = process.env.LOG_LEVEL || 'debug';
   winston.level = level;
 
   const logFile = path.join(__dirname, '../../logs/xos-nb-rest');

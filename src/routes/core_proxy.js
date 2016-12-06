@@ -8,6 +8,14 @@
 
     const proxyRequest = (req, res) => {
 
+      // debugging helper
+      if(!req.headers['x-csrftoken']){
+        logger.log('warn', `csrftoken is missing and is required for authentication`);
+      }
+      if(!req.headers['x-sessionid']){
+        logger.log('warn', `Session id is missing and is required for authentication`);
+      }
+
       const config = require('../config/config.js').xos;
       // pick the correct method from superAgent
       const makeReq = request[req.method.toLowerCase()];
@@ -24,7 +32,7 @@
       // extend with auth info
       sentReq = sentReq
         .set('x-csrftoken', req.headers['x-csrftoken'] || null)
-        .set('cookie', req.headers.cookie || null)
+        .set('cookie', `xossessionid=${req.headers['x-sessionid']}` || null)
 
       // handle response
       sentReq
