@@ -20,15 +20,15 @@
     res.send('Hello world');
   });
 
-  const startServer = () => {
+  const startServer = (port) => {
 
     // if is running just return it
     if(app.server) {
       return app.server;
     }
 
-    const server =  app.listen(config.port, function() {
-      logger.info(`Express is listening to http://localhost:${config.port}`);
+    const server =  app.listen(port || config.port, function() {
+      logger.info(`Express is listening to http://localhost:${port || config.port}`);
 
       // once server is ready setup WebSocket
       socketIo.create(server);

@@ -25,7 +25,7 @@
   });
 
   client.on('message', function (channel, message) {
-    logger.log('debug', 'sub channel ' + channel + ': ' + message);
+    logger.log('warn', 'sub channel ' + channel + ': ' + message);
 
     let msg;
     try {

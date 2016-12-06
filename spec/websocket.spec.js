@@ -7,17 +7,17 @@
   chai.use(sinonChai);
   const io = require('socket.io-client');
   const server = require('../src/server.js');
-
-  describe('basic socket.io example', function() {
+  const port = 4000;
+  describe('Websocket', function() {
 
     var client;
 
     beforeEach(function(done) {
       // Start our server
-      server.start();
+      server.start(port);
 
       // connect a client to the server
-      client = io.connect('http://localhost:3000', {
+      client = io.connect(`http://localhost:${port}`, {
         query: 'name=test@xos.org&token=testToken&sessionId=testSession&id=1'
       });
 
@@ -44,7 +44,7 @@
     it('should not store the same user twice', (done) => {
 
       // connect a client to the server
-      const client2 = io.connect('http://localhost:3000', {
+      const client2 = io.connect(`http://localhost:${port}`, {
         query: 'name=test@xos.org&token=testToken&sessionId=testSession&id=1'
       });
 

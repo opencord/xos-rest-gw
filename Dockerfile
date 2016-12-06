@@ -1,5 +1,5 @@
-# To build use: docker build -t xosproject/xos-nb-rest .
-# To run use: docker run -p 3000:3000 -d xosproject/xos-nb-rest
+# To build use: docker build -t xosproject/xos-rest-gw .
+# To run use: docker run -p 3000:3000 -d xosproject/xos-rest-gw
 
 FROM node:argon
 

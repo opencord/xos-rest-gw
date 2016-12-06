@@ -89,11 +89,11 @@
       .get('/api/core/')
       .set('Accept', 'application/json')
       .set('x-csrftoken', 'testToken')
-      .set('cookie', 'testCookie')
+      .set('x-sessionid', 'testSession')
       .end(function(err) {
         if (err) return done(err);
         expect(myStub.set.getCall(0)).to.have.been.calledWith('x-csrftoken', 'testToken');
-        expect(myStub.set.getCall(1)).to.have.been.calledWith('cookie', 'testCookie');
+        expect(myStub.set.getCall(1)).to.have.been.calledWith('cookie', 'xossessionid=testSession');
         done();
       });
     });
