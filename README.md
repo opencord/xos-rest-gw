@@ -57,4 +57,19 @@ Remember that `redis` in the Frontend config is linked
 
 To start the client: `cd spec; browser-sync start --server`
 
+### Send a fake REDIS event
+
+```
+redis-cli -h xos.dev
+
+# In progress
+PUBLISH Slice "{\"pk\": 19, \"object\": {\"id\": 19,\"name\": \"mysite_test_redis\", \"backend_status\": \"0 - In Progress\"}, \"changed_fields\": [\"updated\", \"backend_status\"]}"
+
+# Succes
+PUBLISH Slice "{\"pk\": 19, \"object\": {\"id\": 19,\"name\": \"mysite_test_redis\", \"backend_status\": \"1 - Success\"}, \"changed_fields\": [\"updated\", \"backend_status\"]}"
+
+# Error
+PUBLISH Slice "{\"pk\": 19, \"object\": {\"id\": 19,\"name\": \"mysite_test_redis\", \"backend_status\": \"2 - Error\"}, \"changed_fields\": [\"updated\", \"backend_status\"]}"
+```
+
 

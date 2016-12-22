@@ -39,7 +39,7 @@
         .end((err, r) => {
           if(err) {
             logger.log('error', err);
-            return res.status(500).send(err);
+            return res.status(err.status).send(err.response.error);
           }
           logger.log('debug', r.status, r.body);
           return res.status(r.status).type('json').send(r.body);
