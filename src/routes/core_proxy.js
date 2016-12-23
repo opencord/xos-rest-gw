@@ -30,18 +30,21 @@
       }
 
       // extend with auth info
-      sentReq = sentReq
-        .set('x-csrftoken', req.headers['x-csrftoken'] || null)
-        .set('cookie', `xossessionid=${req.headers['x-sessionid']}` || null)
+      if(req.headers['x-csrftoken'] && req.headers['x-sessionid']){
+        sentReq = sentReq
+          .set('x-csrftoken', req.headers['x-csrftoken'] || null)
+          .set('cookie', `xoscsrftoken=${req.headers['x-csrftoken']}; xossessionid=${req.headers['x-sessionid']}` || null)
+      }
 
       // handle response
       sentReq
         .end((err, r) => {
           if(err) {
-            logger.log('error', err);
+            logger.log('error', sentReq.method, sentReq.url, err);
             return res.status(err.status).send(err.response.error);
           }
-          logger.log('debug', r.status, r.body);
+          logger.log('debug', sentReq.method, sentReq.url, r.status);
+          logger.log('silly', r.text)
           return res.status(r.status).type('json').send(r.body);
         });
     };

@@ -93,7 +93,7 @@
       .end(function(err) {
         if (err) return done(err);
         expect(myStub.set.getCall(0)).to.have.been.calledWith('x-csrftoken', 'testToken');
-        expect(myStub.set.getCall(1)).to.have.been.calledWith('cookie', 'xossessionid=testSession');
+        expect(myStub.set.getCall(1)).to.have.been.calledWith('cookie', 'xoscsrftoken=testToken; xossessionid=testSession');
         done();
       });
     });
