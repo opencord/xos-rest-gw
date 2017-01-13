@@ -20,6 +20,19 @@
       }
     }
   };
+
+  const mockRequest = {
+    get: () => {
+      return {
+        end: (fn) => {
+          fn(null, {body: [
+            {name: 'Slice'},
+            {name: 'Site'}
+          ]});
+        }
+      }
+    }
+  }
   const channelName = 'Site';
 
   describe('The event system', () => {
@@ -37,6 +50,9 @@
 
       // Override the redis module with our fakeredis instance
       mockery.registerMock('redis', fakeredis);
+
+      // Override the superagent module with our mockRequest instance
+      mockery.registerMock('superagent', mockRequest);
 
       // mock the socketIo client to have a spy
       mockery.registerMock('./websocket.js', mockSocket);

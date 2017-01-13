@@ -5,7 +5,7 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
-    "test": "mocha spec/**/*.spec.js",
+    "test": "LOG_LEVEL=error mocha spec/**/*.spec.js",
     "test:dev": "mocha -w spec/**/*.spec.js",
     "lint": "eslint ."
   },
