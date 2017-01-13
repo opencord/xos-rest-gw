@@ -2,14 +2,16 @@
   'use strict';
   
   const socketIo = require('./websocket.js');
-  const config = require('../config/config.js').redis;
+  const config = require('../config/config.js');
   const logger = require('../config/logger.js');
+  const request = require('superagent');
   const socket = socketIo.get();
+  const _ = require('lodash');
 
   var redis = require('redis');
   var client = redis.createClient({
-    host: config.host,
-    port: config.port
+    host: config.redis.host,
+    port: config.redis.port
   });
 
   client.on('error', function (err) {
@@ -38,20 +40,21 @@
       msg = message;
       socket.emit('event', {model: channel, msg: msg});
     }
-
   });
 
-  const watchedCollections = [
-    'Instance',
-    'Node',
-    'Service',
-    'Slice',
-    'Site',
-    'Subscriber',
-    'Tenant'
-  ];
-
-  watchedCollections.forEach(c => {
-    client.subscribe(c);
+  // dynamically load Model names to listen on channels
+  // NOTE how to listen for models defined by services?
+  request.get(`${config.xos.host}:${config.xos.port}/api/utility/modeldefs`)
+  .end((err, res) => {
+    if (err) {
+      logger.log('error', err);
+    }
+    if (res) {
+      const models = _.map(res.body, i => i.name);
+      _.forEach(models, c => {
+        client.subscribe(c);
+      });
+    }
   });
+
 })();
