@@ -10,10 +10,10 @@
 
       // debugging helper
       if(!req.headers['x-csrftoken']){
-        logger.log('warn', `csrftoken is missing and is required for authentication`);
+        logger.log('warn', `csrftoken is missing and is required for authentication for ${req.url}`);
       }
       if(!req.headers['x-sessionid']){
-        logger.log('warn', `Session id is missing and is required for authentication`);
+        logger.log('warn', `Session id is missing and is required for authentication for ${req.url}`);
       }
 
       const config = require('../config/config.js').xos;
