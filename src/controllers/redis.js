@@ -9,6 +9,7 @@
   const _ = require('lodash');
 
   var redis = require('redis');
+  
   var client = redis.createClient({
     host: config.redis.host,
     port: config.redis.port
@@ -26,7 +27,7 @@
     logger.log('debug', `Subscribed to channel: ${channel}`);
   });
 
-  client.on('message', function (channel, message) {
+  client.on('pmessage', function (pattern, channel, message) {
     logger.log('warn', 'sub channel ' + channel + ': ' + message);
 
     let msg;
@@ -42,19 +43,7 @@
     }
   });
 
-  // dynamically load Model names to listen on channels
-  // NOTE how to listen for models defined by services?
-  request.get(`${config.xos.host}:${config.xos.port}/api/utility/modeldefs`)
-  .end((err, res) => {
-    if (err) {
-      logger.log('error', err);
-    }
-    if (res) {
-      const models = _.map(res.body, i => i.name);
-      _.forEach(models, c => {
-        client.subscribe(c);
-      });
-    }
-  });
+  // subscribe to all channels
+  client.psubscribe('*');
 
 })();
