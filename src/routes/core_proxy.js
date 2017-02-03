@@ -53,6 +53,8 @@
     app.all('/api/core/*', proxyRequest);
     app.all('/api/services', proxyRequest);
     app.all('/api/services/*', proxyRequest);
+    app.all('/api/tenant', proxyRequest);
+    app.all('/api/tenant/*', proxyRequest);
     app.all('/api/utility', proxyRequest);
     app.all('/api/utility/*', proxyRequest);
   };
