@@ -41,7 +41,14 @@
         .end((err, r) => {
           if(err) {
             logger.log('error', sentReq.method, sentReq.url, err);
-            return res.status(err.status).send(err.response.error);
+            let errRes;
+            try {
+              errRes = err.response.error;
+            }
+            catch(e) {
+              errRes = err;
+            }
+            return res.status(err.status).send(errRes);
           }
           logger.log('debug', sentReq.method, sentReq.url, r.status);
           logger.log('silly', r.text)
