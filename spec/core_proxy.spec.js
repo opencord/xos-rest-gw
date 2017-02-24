@@ -20,7 +20,7 @@
 
   let app;
 
-  describe('The core proxy routes', () => {
+  xdescribe('The core proxy routes [REST API moved to chameleon]', () => {
 
     // stub for GET method
     stub.makeStub('getSuccess', request, 'get', cb => {
