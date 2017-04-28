@@ -4,6 +4,22 @@
 
 FROM node:argon
 
+# Set environment variables
+ENV CODE_SOURCE .
+ENV CODE_DEST /var/www
+
+# Create app directory
+WORKDIR ${CODE_DEST}
+
+# Copy over app dependencies and source files
+COPY ${CODE_SOURCE}/package.json ${CODE_SOURCE}/src ${CODE_DEST}
+
+# Install app dependencies and create logdir
+RUN npm install --production \
+ && mkdir ${CODE_DEST}/logs
+
+EXPOSE 3000
+
 # Label image
 ARG org_label_schema_schema_version=1.0
 ARG org_label_schema_name=xos-rest-gw
@@ -21,22 +37,5 @@ LABEL org.label-schema.schema-version=$org_label_schema_schema_version \
       org.label-schema.build-date=$org_label_schema_build_date \
       org.opencord.vcs-commit-date=$org_opencord_vcs_commit_date
 
-# Set environment variables
-ENV CODE_SOURCE .
-ENV CODE_DEST /var/www
-
-# Create app directory
-WORKDIR ${CODE_DEST}
-
-# Install app dependencies
-COPY ${CODE_SOURCE}/package.json ${CODE_DEST}
-RUN npm install --production
-
-# Bundle app source
-COPY ${CODE_SOURCE}/src ${CODE_DEST}/src
-
-# Create a folder for logs
-RUN mkdir ${CODE_DEST}/logs
-
-EXPOSE 3000
 CMD [ "npm", "start" ]
+
