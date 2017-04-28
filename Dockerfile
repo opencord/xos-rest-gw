@@ -1,8 +1,25 @@
-# xosproject/xos-rest-gw
-# To build use: docker build -t xosproject/xos-rest-gw .
-# To run use: docker run -p 3000:3000 -d xosproject/xos-rest-gw
+# xosproject/xos-ws
+# To build use: docker build -t xosproject/xos-ws .
+# To run use: docker run -p 3000:3000 -d xosproject/xos-ws
 
 FROM node:argon
+
+# Set environment variables
+ENV CODE_SOURCE .
+ENV CODE_DEST /var/www
+
+# Create app directory
+WORKDIR ${CODE_DEST}
+
+# Copy over app dependencies and source files
+COPY ${CODE_SOURCE}/package.json ${CODE_DEST}/
+COPY ${CODE_SOURCE}/src/ ${CODE_DEST}/src/
+
+# Install app dependencies and create logdir
+RUN npm install --production \
+ && mkdir ${CODE_DEST}/logs
+
+EXPOSE 3000
 
 # Label image
 ARG org_label_schema_schema_version=1.0
@@ -21,22 +38,5 @@ LABEL org.label-schema.schema-version=$org_label_schema_schema_version \
       org.label-schema.build-date=$org_label_schema_build_date \
       org.opencord.vcs-commit-date=$org_opencord_vcs_commit_date
 
-# Set environment variables
-ENV CODE_SOURCE .
-ENV CODE_DEST /var/www
-
-# Create app directory
-WORKDIR ${CODE_DEST}
-
-# Install app dependencies
-COPY ${CODE_SOURCE}/package.json ${CODE_DEST}
-RUN npm install --production
-
-# Bundle app source
-COPY ${CODE_SOURCE}/src ${CODE_DEST}/src
-
-# Create a folder for logs
-RUN mkdir ${CODE_DEST}/logs
-
-EXPOSE 3000
 CMD [ "npm", "start" ]
+
