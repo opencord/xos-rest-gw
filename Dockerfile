@@ -2,7 +2,7 @@
 # To build use: docker build -t xosproject/xos-ws .
 # To run use: docker run -p 3000:3000 -d xosproject/xos-ws
 
-FROM node:argon
+FROM node:7.9.0
 
 # Set environment variables
 ENV CODE_SOURCE .
