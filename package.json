@@ -5,11 +5,11 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
-    "test": "LOG_LEVEL=error mocha spec/**/*.spec.js",
+    "test": "LOG_LEVEL=error nyc --reporter=html mocha spec/**/*.spec.js",
     "test:dev": "mocha -w spec/**/*.spec.js",
     "lint": "eslint ."
   },
-  "author": "Open Networking Laboratory",
+  "author": "Open Networking Foundation",
   "license": "Apache-2.0",
   "dependencies": {
     "body-parser": "^1.15.2",
@@ -30,6 +30,7 @@
     "fakeredis": "^1.0.3",
     "mocha": "^3.2.0",
     "mockery": "^2.0.0",
+    "nyc": "^11.2.1",
     "sinon": "^1.17.6",
     "sinon-chai": "^2.8.0",
     "socket.io-client": "^1.7.1",
