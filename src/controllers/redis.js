@@ -46,18 +46,28 @@
   });
 
   client.on('pmessage', function (pattern, channel, message) {
-    logger.log('warn', 'sub channel ' + channel + ': ' + message);
+    if (channel === 'Diag') {
+      return;
+    }
+
 
     let msg;
     try {
       msg = JSON.parse(message);
       // TODO find the user that needs to be notified for msg.object update
-      socket.emit('event', {model: channel, msg: msg});
     }
     catch(e) {
       // send the event also if it is not JSON
       msg = message;
-      socket.emit('event', {model: channel, msg: msg});
+    }
+
+    if (msg.deleted) {
+      logger.log('warn', 'Remove on: ' + channel + ': ' + message);
+      socket.emit('remove', {model: channel, msg: msg, deleted: true});
+    }
+    else {
+      logger.log('warn', 'Update on: ' + channel + ': ' + message);
+      socket.emit('update', {model: channel, msg: msg});
     }
   });
 
