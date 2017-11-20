@@ -52,12 +52,17 @@
     try {
       msg = JSON.parse(message);
       // TODO find the user that needs to be notified for msg.object update
-      socket.emit('event', {model: channel, msg: msg});
     }
     catch(e) {
       // send the event also if it is not JSON
       msg = message;
-      socket.emit('event', {model: channel, msg: msg});
+    }
+
+    if (msg.deleted) {
+      socket.emit('remove', {model: channel, msg: msg, deleted: true});
+    }
+    else {
+      socket.emit('update', {model: channel, msg: msg});
     }
   });
 

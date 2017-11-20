@@ -91,13 +91,14 @@
       client.unsubscribe(channelName);
       client.subscribe(channelName);
       publisher.flushdb();
+      socketSpy.reset();
     });
 
     it('should send a websocket event when it receive a redis event that is not JSON', (done) => {
       publisher.publish(channelName, 'I am sending a message.');
       setTimeout(() => {
         expect(socketSpy).to.have.been.called;
-        expect(socketSpy).to.have.been.calledWith('event', {
+        expect(socketSpy).to.have.been.calledWith('update', {
           model: channelName,
           msg: 'I am sending a message.'
         });
@@ -109,10 +110,27 @@
       publisher.publish(channelName, JSON.stringify({msg: 'Json Message'}));
       setTimeout(() => {
         expect(socketSpy).to.have.been.called;
-        expect(socketSpy).to.have.been.calledWith('event', {
+        expect(socketSpy).to.have.been.calledWith('update', {
           model: channelName,
           msg: {msg: 'Json Message'}
         });
+        done();
+      }, 1000)
+    });
+
+    it('should send a websocket event when an object has been removed', (done) => {
+      publisher.publish(channelName, JSON.stringify({msg: 'Deleted', deleted: true}));
+      setTimeout(() => {
+        expect(socketSpy).to.have.been.called;
+        expect(socketSpy).to.have.been.calledWith('remove', {
+          model: channelName,
+          msg: {
+            msg: 'Deleted',
+            deleted: true
+          },
+          deleted: true
+        });
+
         done();
       }, 1000)
     });
