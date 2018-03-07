@@ -31,9 +31,6 @@
   app.use(cors());
   app.use(bodyParser.json());
 
-  // Load routes
-  // require('./routes/core_proxy.js')(app);
-
   app.get('/', function(req, res) {
     res.send('Welcome to the websocket server for XOS');
   });

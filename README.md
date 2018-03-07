@@ -1,6 +1,6 @@
 # XOS Northbound Rest Interface
 
-This is an abstraction layer that provide REST APIs and WebSockets access to XOS.
+This is an abstraction layer that provide WebSockets read access to XOS.
 
 ## Development
 
@@ -20,9 +20,6 @@ If you are actively working on this project we suggest you to take a look to [no
 By default the used config is:
 ```
 default:
-  xos:
-    host: xos
-    port: 9999
   redis:
     host: redis
     port: 6379
@@ -40,12 +37,6 @@ A comprehensive test suite defined using [Mocha](https://mochajs.org/), [Chai](h
 Styleguide are also applied using [EsLint](http://eslint.org/), to check style execute `npm run lint`.
 
 ## Notes
-
-### Sample request to core authenticated method:
-
-```
-curl -H "x-csrftoken: TOKEN" -H "cookie: xoscsrftoken=TOKEN;xossessionid=SESSION_ID" 127.0.0.1:3000/api/core/instances/
-```
 
 ### Websocket
 

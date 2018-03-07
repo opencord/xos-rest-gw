@@ -40,10 +40,6 @@
   }
 
   module.exports = {
-    xos: {
-      host: (config && config.xos) ? config.xos.host : 'xos',
-      port: (config && config.xos) ? config.xos.port : 8000
-    },
     redis: {
       host: (config && config.redis) ? config.redis.host : 'redis',
       port: (config && config.redis) ? config.redis.port : 6379
