@@ -27,12 +27,12 @@ default:
     port: 3000
 ```
 
-You can create a file called `config.yml` and replace one or more value.
+You can create a file called `config.yml` and replace one or more values.
 You can also have different config files and load them using the `--config` flag (see above for usage).
 
 ### Tests
 
-A comprehensive test suite defined using [Mocha](https://mochajs.org/), [Chai](http://chaijs.com/) and [Sinon](http://sinonjs.org/) is provided togheter with the project. To execute existing tests use `npm test`, while if you are currently working on it you can execute them in watch mode using `npm run test:dev`.
+A comprehensive test suite defined using [Mocha](https://mochajs.org/), [Chai](http://chaijs.com/) and [Sinon](http://sinonjs.org/) is provided together with the project. To execute existing tests use `npm test`, while if you are currently working on it you can execute them in watch mode using `npm run test:dev`.
 
 Styleguide are also applied using [EsLint](http://eslint.org/), to check style execute `npm run lint`.
 
