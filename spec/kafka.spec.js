@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2017-present Open Networking Foundation
 
@@ -15,10 +14,9 @@
  * limitations under the License.
  */
 
-
 (function () {
   'use strict';
-  
+
   const chai = require('chai');
   const expect = chai.expect;
   const sinon = require('sinon');
@@ -75,7 +73,7 @@
       // mock the socketIo client to have a spy
       mockery.registerMock('./websocket.js', mockSocket);
 
-      require('../src/controllers/redis.js');
+      require('../src/controllers/kafka.js');
       setTimeout(() => {
         done();
       }, 1000);
