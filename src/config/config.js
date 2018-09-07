@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2017-present Open Networking Foundation
 
@@ -15,11 +14,10 @@
  * limitations under the License.
  */
 
-
 (function () {
   'use strict';
-  
-  // NOTE do we still need CLI args? 
+
+  // NOTE do we still need CLI args?
   // Won't be better to use NODE_ENV and the native node-yaml-config feature
 
   const argv = require('yargs').argv;
@@ -40,12 +38,10 @@
   }
 
   module.exports = {
-    redis: {
-      host: (config && config.redis) ? config.redis.host : 'redis',
-      port: (config && config.redis) ? config.redis.port : 6379
-    },
     gateway: {
       port: (config && config.gateway) ? config.gateway.port : 3000
-    }
+    },
+    kafka_bootstrap_servers: ( config && config.kafka_bootstrap_servers ) ?
+      config.kafka_bootstrap_servers : ['cord-kafka:9092']
   };
 })();

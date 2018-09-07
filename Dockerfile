@@ -2,7 +2,7 @@
 # To build use: docker build -t xosproject/xos-ws .
 # To run use: docker run -p 3000:3000 -d xosproject/xos-ws
 
-FROM node:7.9.0
+FROM node:10-alpine
 
 # Set environment variables
 ENV CODE_SOURCE .
@@ -10,6 +10,9 @@ ENV CODE_DEST /var/www
 
 # Create app directory
 WORKDIR ${CODE_DEST}
+
+# install librdkafka
+RUN apk --no-cache add -U python make bash g++
 
 # Copy over app dependencies and source files
 COPY ${CODE_SOURCE}/package.json ${CODE_DEST}/
@@ -39,4 +42,3 @@ LABEL org.label-schema.schema-version=$org_label_schema_schema_version \
       org.opencord.vcs-commit-date=$org_opencord_vcs_commit_date
 
 CMD [ "npm", "start" ]
-

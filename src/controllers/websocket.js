@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2017-present Open Networking Foundation
 
@@ -14,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 
 (function () {
   'use strict';
@@ -54,4 +52,4 @@
   // const socket = socketIo.get();
   // socket.emit('eventName', data);
 
-})(); 
+})();

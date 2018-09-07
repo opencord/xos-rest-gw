@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2017-present Open Networking Foundation
 
@@ -15,22 +14,18 @@
  * limitations under the License.
  */
 
-
 (function () {
   'use strict';
-  
+
   const chai = require('chai');
   const expect = chai.expect;
   const sinon = require('sinon');
   const sinonChai = require('sinon-chai');
   const mockery = require('mockery');
   chai.use(sinonChai);
-  const fakeredis = require('fakeredis');
-
-  const client = fakeredis.createClient('test-client');
-  const publisher = fakeredis.createClient('test-client');
 
   const socketSpy = sinon.spy();
+
   const mockSocket = {
     get: () => {
       return {
@@ -39,19 +34,25 @@
     }
   };
 
-  const mockRequest = {
-    get: () => {
-      return {
-        end: (fn) => {
-          fn(null, {body: [
-            {name: 'Slice'},
-            {name: 'Site'}
-          ]});
-        }
-      }
+  const trigger = {}
+
+  const mockStream = {
+    on: (event, cb) => {
+      trigger[event] = cb
+    },
+    consumer: {
+      on: sinon.spy()
     }
   }
+
+  const fakekafka = {
+    KafkaConsumer: {
+      createReadStream: () => mockStream
+    }
+  }
+
   const channelName = 'Site';
+  const msgTopic = 'xos.gui_events';
 
   describe('The event system', () => {
 
@@ -63,19 +64,13 @@
           warnOnUnregistered: false
       });
 
-      // Stub the createClient method to *always* return the client created above
-      sinon.stub(fakeredis, 'createClient', () => client);
-
-      // Override the redis module with our fakeredis instance
-      mockery.registerMock('redis', fakeredis);
-
-      // Override the superagent module with our mockRequest instance
-      mockery.registerMock('superagent', mockRequest);
+      // Override the node-rdkafka module with our fakekafka instance
+      mockery.registerMock('node-rdkafka', fakekafka);
 
       // mock the socketIo client to have a spy
       mockery.registerMock('./websocket.js', mockSocket);
 
-      require('../src/controllers/redis.js');
+      require('../src/controllers/kafka.js');
       setTimeout(() => {
         done();
       }, 1000);
@@ -83,19 +78,20 @@
 
     after(() => {
       mockery.disable();
-      fakeredis.createClient.restore();
     });
 
     // run after each test
     beforeEach(() => {
-      client.unsubscribe(channelName);
-      client.subscribe(channelName);
-      publisher.flushdb();
       socketSpy.reset();
     });
 
-    it('should send a websocket event when it receive a redis event that is not JSON', (done) => {
-      publisher.publish(channelName, 'I am sending a message.');
+    it('should send a websocket event when text Kafka event is received', (done) => {
+      trigger.data({topic:msgTopic,
+                    key:channelName,
+                    timestamp:1234,
+                    value:'I am sending a message.',
+                    });
+
       setTimeout(() => {
         expect(socketSpy).to.have.been.called;
         expect(socketSpy).to.have.been.calledWith('update', {
@@ -106,20 +102,30 @@
       }, 500)
     });
 
-    it('should send a websocket event when it receive a redis event that is JSON', (done) => {
-      publisher.publish(channelName, JSON.stringify({msg: 'Json Message'}));
+    it('should send a websocket event when JSON Kafka event is received', (done) => {
+      trigger.data({topic:msgTopic,
+                    key:channelName,
+                    timestamp:2345,
+                    value:JSON.stringify({msg: 'JSON Message'}),
+                    });
+
       setTimeout(() => {
         expect(socketSpy).to.have.been.called;
         expect(socketSpy).to.have.been.calledWith('update', {
           model: channelName,
-          msg: {msg: 'Json Message'}
+          msg: {msg: 'JSON Message'}
         });
         done();
       }, 1000)
     });
 
-    it('should send a websocket event when an object has been removed', (done) => {
-      publisher.publish(channelName, JSON.stringify({msg: 'Deleted', deleted: true}));
+    it('should send a websocket event with msg: Deleted when JSON object has deleted:true', (done) => {
+      trigger.data({topic:msgTopic,
+                    key:channelName,
+                    timestamp:3456,
+                    value:JSON.stringify({msg: 'Deleted', deleted: true}),
+                    });
+
       setTimeout(() => {
         expect(socketSpy).to.have.been.called;
         expect(socketSpy).to.have.been.calledWith('remove', {
@@ -135,12 +141,18 @@
       }, 1000)
     });
 
-  it('should not send a websocket event if the channel is Diag', (done) => {
-    publisher.publish('Diag', JSON.stringify({msg: 'Json Message'}));
-    setTimeout(() => {
-      expect(socketSpy).not.to.have.been.called;
-      done();
-    }, 1000)
+    it('should not send a websocket event if the Kafka key is Diag', (done) => {
+      trigger.data({topic:msgTopic,
+                    key:'Diag',
+                    timestamp:4567,
+                    value:JSON.stringify({msg: 'Diag Message'}),
+                    });
+
+      setTimeout(() => {
+        expect(socketSpy).not.to.have.been.called;
+        done();
+      }, 1000)
     });
+
   });
 })();

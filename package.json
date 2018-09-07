@@ -1,31 +1,37 @@
 {
   "name": "xos_nb_rest",
-  "version": "1.0.0",
+  "version": "2.0.0-dev0",
   "description": "Northbound REST and WebSocket interfaces for XOS",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
     "test": "LOG_LEVEL=error nyc --reporter=html mocha spec/**/*.spec.js",
     "test:dev": "mocha -w spec/**/*.spec.js",
-    "lint": "eslint ."
+    "lint": "eslint spec src"
   },
   "author": "Open Networking Foundation",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git://gerrit.opencord.org/xos-rest-gw.git"
+  },
   "dependencies": {
     "body-parser": "^1.15.2",
     "cors": "^2.8.1",
     "express": "^4.14.0",
     "lodash": "^4.17.2",
+    "node-rdkafka": "^2.4.1",
     "node-yaml-config": "0.0.4",
     "redis": "^2.6.3",
     "socket.io": "^1.7.1",
     "superagent": "^3.1.0",
+    "test": "^0.6.0",
     "winston": "^2.3.0",
     "yargs": "^6.4.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "eslint": "^3.11.1",
+    "eslint": "^3.19.0",
     "eslint-plugin-import": "^2.2.0",
     "fakeredis": "^1.0.3",
     "mocha": "^3.2.0",

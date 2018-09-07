@@ -18,7 +18,7 @@
 
 (function () {
   'use strict';
-  
+
   const express = require('express');
   const app = express();
   const config = require('./config/config.js').gateway;
@@ -48,8 +48,8 @@
       // once server is ready setup WebSocket
       socketIo.create(server);
 
-      // start redis
-      require('./controllers/redis.js');
+      // start kafka
+      require('./controllers/kafka.js');
     });
     app.server = server;
     return server;
