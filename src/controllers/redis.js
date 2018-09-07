@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2017-present Open Networking Foundation
 
@@ -15,19 +14,16 @@
  * limitations under the License.
  */
 
-
 (function () {
   'use strict';
-  
+
   const socketIo = require('./websocket.js');
   const config = require('../config/config.js');
   const logger = require('../config/logger.js');
-  const request = require('superagent');
   const socket = socketIo.get();
-  const _ = require('lodash');
 
   var redis = require('redis');
-  
+
   var client = redis.createClient({
     host: config.redis.host,
     port: config.redis.port
