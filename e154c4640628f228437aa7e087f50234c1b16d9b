@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8a9d62b0_aac54409",
+        "filename": "Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000011
+      },
+      "writtenOn": "2018-09-10T21:49:42Z",
+      "side": 1,
+      "message": "Still a draft, this should be deleted.   \n\nThe commented code was an attempt to pre-install librdkafka, but the npm installed `node-rdkafka` doesn\u0027t recognize this and still installs it\u0027s own version.",
+      "parentUuid": "b08960be_2c242df5",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 58
+      },
+      "revId": "e154c4640628f228437aa7e087f50234c1b16d9b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7f7b671_b91ee0c9",
         "filename": "Dockerfile",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2018-09-10T21:41:50Z",
       "side": 1,
       "message": "do we need python?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 46
+      },
+      "revId": "e154c4640628f228437aa7e087f50234c1b16d9b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca845a90_42479601",
+        "filename": "Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000011
+      },
+      "writtenOn": "2018-09-10T21:49:42Z",
+      "side": 1,
+      "message": "Yes, it\u0027s used by the node-rdkafka scripts that install librdkafka  \n\nThis is less than is upstream recommended set of packages: https://github.com/Blizzard/node-rdkafka/blob/master/examples/docker-alpine.md",
+      "parentUuid": "f7f7b671_b91ee0c9",
       "range": {
         "startLine": 17,
         "startChar": 0,
