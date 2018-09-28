@@ -1,6 +1,6 @@
 {
   "name": "xos_nb_rest",
-  "version": "2.0.0",
+  "version": "2.0.1-dev",
   "description": "Northbound REST and WebSocket interfaces for XOS",
   "main": "src/server.js",
   "scripts": {
