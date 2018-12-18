@@ -45,11 +45,15 @@
       });
     
       stream.on('error', function (err) {
-        logger.log('error', err);
+        logger.log('info', 'Failed to connect to kafka, reconnecting in 5 sec')
+        logger.log('debug', err);
+        setTimeout(connect, 5 * 1000);
       });
     
       stream.consumer.on('event.error', function (err) {
-        logger.log('error', err);
+        logger.log('info', 'Failed to connect to kafka, reconnecting in 5 sec')
+        logger.log('debug', err);
+        setTimeout(connect, 5 * 1000);
       });
     
       stream.on('data', function (msg) {
@@ -82,8 +86,9 @@
     
       });
     }
-    catch(e) {
-      logger.log('warning', 'Failed to connect to kafka, reconnecting in 5 sec', e)
+    catch(err) {
+      logger.log('warning', 'Failed to connect to kafka, reconnecting in 5 sec')
+      logger.log('debug', err);
       setTimeout(connect, 5 * 1000);
     }
   }

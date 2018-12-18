@@ -30,8 +30,9 @@
 
   let config;
   try {
-    logger.log('debug', `Loading ${cfgFile}`);
+    logger.log('debug', `Loading ${path.join(__dirname, cfgFile)}`);
     config = yaml_config.load(path.join(__dirname, cfgFile));
+    logger.log('debug', `Parsed config: ${JSON.stringify(config)}`);
   }
   catch(e) {
     logger.log('debug', `No ${cfgFile} found, using default params`);
