@@ -1,6 +1,6 @@
 {
   "name": "xos_nb_rest",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "WebSocket interfaces for XOS",
   "main": "src/server.js",
   "scripts": {
