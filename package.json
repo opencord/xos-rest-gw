@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "eslint": "^3.19.0",
+    "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.2.0",
     "fakeredis": "^1.0.3",
     "mocha": "^3.2.0",
